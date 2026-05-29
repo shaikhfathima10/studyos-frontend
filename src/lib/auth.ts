@@ -1,7 +1,7 @@
 export const apiCall = async (path: string, opts?: RequestInit) => {
   let token = localStorage.getItem("studyos_token");
 
-  const res = await fetch(`http://localhost:5000${path}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
     ...opts,
     headers: {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export const apiCall = async (path: string, opts?: RequestInit) => {
   if (res.status === 401) {
     const refresh = localStorage.getItem("studyos_refresh");
     if (refresh) {
-      const r = await fetch("http://localhost:5000/api/auth/refresh", {
+      const r = await fetch("${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/refresh", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh_token: refresh }),
@@ -23,7 +23,7 @@ export const apiCall = async (path: string, opts?: RequestInit) => {
       if (d.access_token) {
         localStorage.setItem("studyos_token", d.access_token);
         // Retry original request
-        return fetch(`http://localhost:5000${path}`, {
+        return fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
           ...opts,
           headers: {
             "Content-Type": "application/json",

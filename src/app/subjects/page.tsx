@@ -24,7 +24,7 @@ export default function SubjectsPage() {
 
   const getToken = () => localStorage.getItem("studyos_token") || "";
   const api = (path: string, opts?: RequestInit) =>
-    fetch(`http://localhost:5000${path}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
       ...opts,
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}`, ...opts?.headers },
     }).then(r => r.json());

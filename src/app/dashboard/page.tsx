@@ -22,7 +22,7 @@ export default function Dashboard() {
   const getToken = () => localStorage.getItem("studyos_token") || "";
 
   const apiFetch = async (path: string, opts?: RequestInit) => {
-    const res = await fetch(`http://localhost:5000${path}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
       ...opts,
       headers: {
         "Content-Type": "application/json",

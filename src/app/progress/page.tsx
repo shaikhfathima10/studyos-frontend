@@ -21,7 +21,7 @@ export default function ProgressPage() {
 
   const getToken = () => localStorage.getItem("studyos_token") || "";
   const api = (path: string) =>
-    fetch(`http://localhost:5000${path}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}` },
     }).then(r => r.json());
 

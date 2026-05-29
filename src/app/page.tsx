@@ -21,8 +21,8 @@ export default function HomePage() {
     setLoading(true);
     try {
       const url = mode === "login"
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/register";
+        ? "${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/login"
+        : "${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/register";
       const body = mode === "login"
         ? { email: form.email, password: form.password }
         : form;
