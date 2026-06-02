@@ -1,14 +1,14 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: "⚡", label: "Home" },
-  { href: "/schedule",  icon: "📅", label: "Schedule" },
-  { href: "/timer",     icon: "⏱", label: "Timer" },
-  { href: "/subjects",  icon: "📚", label: "Subjects" },
-  { href: "/progress",  icon: "📈", label: "Progress" },
-  { href: "/rewards",   icon: "🏆", label: "Rewards" },
+  { href: "/dashboard", icon: "âš¡", label: "Home" },
+  { href: "/schedule",  icon: "ðŸ“…", label: "Schedule" },
+  { href: "/timer",     icon: "â±", label: "Timer" },
+  { href: "/subjects",  icon: "ðŸ“š", label: "Subjects" },
+  { href: "/progress",  icon: "ðŸ“ˆ", label: "Progress" },
+  { href: "/rewards",   icon: "ðŸ†", label: "Rewards" },
 ];
 
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -22,7 +22,7 @@ export default function SchedulePage() {
 
   const getToken = () => localStorage.getItem("studyos_token") || "";
   const api = (path: string, opts?: RequestInit) =>
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}${path}`, {
       ...opts,
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}`, ...opts?.headers },
     }).then(r => r.json());
@@ -69,11 +69,11 @@ export default function SchedulePage() {
       <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #E2E8F0", padding: "16px 20px", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#1E293B" }}>📅 Schedule</h1>
+            <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#1E293B" }}>ðŸ“… Schedule</h1>
             <p style={{ margin: 0, color: "#64748B", fontSize: 12 }}>AI-optimized daily plan</p>
           </div>
           <button onClick={generate} disabled={generating} style={{ background: "linear-gradient(135deg, #1E40AF, #4338CA)", border: "none", borderRadius: 12, padding: "10px 16px", color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: 13, boxShadow: "0 2px 8px rgba(30,64,175,0.3)" }}>
-            {generating ? "⏳..." : "🤖 Generate"}
+            {generating ? "â³..." : "ðŸ¤– Generate"}
           </button>
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function SchedulePage() {
           <p style={{ color: "#94A3B8", textAlign: "center", padding: "40px 0", fontWeight: 500 }}>Loading...</p>
         ) : schedule.length === 0 ? (
           <div style={{ textAlign: "center", padding: "60px 20px" }}>
-            <p style={{ fontSize: 48 }}>📅</p>
+            <p style={{ fontSize: 48 }}>ðŸ“…</p>
             <p style={{ color: "#64748B", fontSize: 15, marginTop: 12, fontWeight: 600 }}>No schedule for this day.</p>
             <p style={{ color: "#94A3B8", fontSize: 13 }}>Click Generate to create one!</p>
           </div>
@@ -134,7 +134,7 @@ export default function SchedulePage() {
                     <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#1E293B" }}>{block.subjects?.name || block.block_type}</p>
                     <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                       <span style={{ fontSize: 11, color: "#94A3B8", background: "#F1F5F9", padding: "2px 8px", borderRadius: 6 }}>{block.duration_min}m</span>
-                      {block.status === "done" && <span style={{ color: "#059669", fontSize: 16 }}>✓</span>}
+                      {block.status === "done" && <span style={{ color: "#059669", fontSize: 16 }}>âœ“</span>}
                     </div>
                   </div>
                   {block.block_type !== "break" && (

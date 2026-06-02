@@ -1,14 +1,14 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: "⚡", label: "Home" },
-  { href: "/schedule",  icon: "📅", label: "Schedule" },
-  { href: "/timer",     icon: "⏱", label: "Timer" },
-  { href: "/subjects",  icon: "📚", label: "Subjects" },
-  { href: "/progress",  icon: "📈", label: "Progress" },
-  { href: "/rewards",   icon: "🏆", label: "Rewards" },
+  { href: "/dashboard", icon: "âš¡", label: "Home" },
+  { href: "/schedule",  icon: "ðŸ“…", label: "Schedule" },
+  { href: "/timer",     icon: "â±", label: "Timer" },
+  { href: "/subjects",  icon: "ðŸ“š", label: "Subjects" },
+  { href: "/progress",  icon: "ðŸ“ˆ", label: "Progress" },
+  { href: "/rewards",   icon: "ðŸ†", label: "Rewards" },
 ];
 
 export default function Dashboard() {
@@ -22,7 +22,7 @@ export default function Dashboard() {
   const getToken = () => localStorage.getItem("studyos_token") || "";
 
   const apiFetch = async (path: string, opts?: RequestInit) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}${path}`, {
       ...opts,
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export default function Dashboard() {
   if (loading) return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#F8FAFC" }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: 48 }}>📖</div>
+        <div style={{ fontSize: 48 }}>ðŸ“–</div>
         <p style={{ color: "#64748B", marginTop: 12, fontWeight: 600 }}>Loading StudyOS...</p>
       </div>
     </div>
@@ -92,12 +92,12 @@ export default function Dashboard() {
       {/* Header */}
       <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #E2E8F0", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #1E40AF, #4338CA)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>📖</div>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #1E40AF, #4338CA)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>ðŸ“–</div>
           <span style={{ fontSize: 18, fontWeight: 900, color: "#1E293B" }}>Study<span style={{ color: "#1E40AF" }}>OS</span></span>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <div style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 20, padding: "5px 12px", display: "flex", gap: 6, alignItems: "center" }}>
-            <span>🔥</span>
+            <span>ðŸ”¥</span>
             <span style={{ fontWeight: 800, color: "#D97706", fontSize: 13 }}>{user?.streak || 0}</span>
           </div>
           <button onClick={logout} style={{ background: "#FEE2E2", border: "1px solid #FECACA", borderRadius: 10, padding: "6px 12px", color: "#DC2626", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>Logout</button>
@@ -108,9 +108,9 @@ export default function Dashboard() {
 
         {/* Welcome */}
         <div style={{ marginBottom: 20 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 900, margin: 0, color: "#1E293B" }}>Hey, {user?.name?.split(" ")[0] || "Scholar"} 👋</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 900, margin: 0, color: "#1E293B" }}>Hey, {user?.name?.split(" ")[0] || "Scholar"} ðŸ‘‹</h2>
           <p style={{ color: "#64748B", fontSize: 14, marginTop: 4 }}>
-            {examDays ? `Exam in ${examDays} days · Let's crush it!` : "Welcome to StudyOS!"}
+            {examDays ? `Exam in ${examDays} days Â· Let's crush it!` : "Welcome to StudyOS!"}
           </p>
         </div>
 
@@ -126,7 +126,7 @@ export default function Dashboard() {
             </div>
             {readiness.critical_subjects?.length > 0 && (
               <p style={{ color: "#FCA5A5", fontSize: 12, marginTop: 8, fontWeight: 600 }}>
-                ⚠️ Critical: {readiness.critical_subjects.join(", ")}
+                âš ï¸ Critical: {readiness.critical_subjects.join(", ")}
               </p>
             )}
           </div>
@@ -135,9 +135,9 @@ export default function Dashboard() {
         {/* Stats */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
           {[
-            { icon: "🔥", val: user?.streak || 0, label: "Streak", color: "#D97706", bg: "#FEF3C7" },
-            { icon: "⭐", val: user?.xp || 0, label: "XP", color: "#7C3AED", bg: "#EDE9FE" },
-            { icon: "🎯", val: user?.level || 1, label: "Level", color: "#1E40AF", bg: "#DBEAFE" },
+            { icon: "ðŸ”¥", val: user?.streak || 0, label: "Streak", color: "#D97706", bg: "#FEF3C7" },
+            { icon: "â­", val: user?.xp || 0, label: "XP", color: "#7C3AED", bg: "#EDE9FE" },
+            { icon: "ðŸŽ¯", val: user?.level || 1, label: "Level", color: "#1E40AF", bg: "#DBEAFE" },
           ].map(s => (
             <div key={s.label} style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 16, padding: "16px 12px", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
               <div style={{ fontSize: 22 }}>{s.icon}</div>
@@ -152,12 +152,12 @@ export default function Dashboard() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
             <p style={{ fontWeight: 800, fontSize: 15, margin: 0, color: "#1E293B" }}>Today's Schedule</p>
             <button onClick={generateSchedule} disabled={generating} style={{ background: "linear-gradient(135deg, #1E40AF, #4338CA)", border: "none", borderRadius: 10, padding: "8px 14px", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700, boxShadow: "0 2px 8px rgba(30,64,175,0.3)" }}>
-              {generating ? "⏳..." : "🤖 Generate"}
+              {generating ? "â³..." : "ðŸ¤– Generate"}
             </button>
           </div>
           {schedule.length === 0 ? (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
-              <p style={{ fontSize: 40, margin: 0 }}>📅</p>
+              <p style={{ fontSize: 40, margin: 0 }}>ðŸ“…</p>
               <p style={{ color: "#94A3B8", fontSize: 13, marginTop: 10, fontWeight: 500 }}>No schedule yet. Click Generate!</p>
             </div>
           ) : schedule.slice(0, 8).map((block: any, i: number) => (
@@ -170,7 +170,7 @@ export default function Dashboard() {
                 {block.subjects?.name || "Break"}
               </span>
               <span style={{ fontSize: 11, color: "#94A3B8", background: "#F1F5F9", padding: "2px 8px", borderRadius: 6 }}>{block.duration_min}m</span>
-              {block.status === "done" && <span style={{ color: "#10B981", fontSize: 16 }}>✓</span>}
+              {block.status === "done" && <span style={{ color: "#10B981", fontSize: 16 }}>âœ“</span>}
             </div>
           ))}
         </div>

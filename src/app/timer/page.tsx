@@ -1,14 +1,14 @@
-"use client";
+﻿"use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: "⚡", label: "Home" },
-  { href: "/schedule",  icon: "📅", label: "Schedule" },
-  { href: "/timer",     icon: "⏱", label: "Timer" },
-  { href: "/subjects",  icon: "📚", label: "Subjects" },
-  { href: "/progress",  icon: "📈", label: "Progress" },
-  { href: "/rewards",   icon: "🏆", label: "Rewards" },
+  { href: "/dashboard", icon: "âš¡", label: "Home" },
+  { href: "/schedule",  icon: "ðŸ“…", label: "Schedule" },
+  { href: "/timer",     icon: "â±", label: "Timer" },
+  { href: "/subjects",  icon: "ðŸ“š", label: "Subjects" },
+  { href: "/progress",  icon: "ðŸ“ˆ", label: "Progress" },
+  { href: "/rewards",   icon: "ðŸ†", label: "Rewards" },
 ];
 
 const MODES = {
@@ -31,7 +31,7 @@ export default function TimerPage() {
 
   const getToken = () => localStorage.getItem("studyos_token") || "";
   const api = (path: string, opts?: RequestInit) =>
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${path}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}${path}`, {
       ...opts,
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken()}`, ...opts?.headers },
     }).then(r => r.json());
@@ -77,7 +77,7 @@ export default function TimerPage() {
       setSessionId(null);
       setSessions(n => n + 1);
       if (result.xp_earned) {
-        alert(`Session complete! +${result.xp_earned} XP 🎉\nStreak: ${result.new_streak} days 🔥`);
+        alert(`Session complete! +${result.xp_earned} XP ðŸŽ‰\nStreak: ${result.new_streak} days ðŸ”¥`);
       }
       const d = await api("/api/sessions/today");
       setTodaySessions(Array.isArray(d) ? d : []);
@@ -98,7 +98,7 @@ export default function TimerPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFC", maxWidth: 480, margin: "0 auto", paddingBottom: 100 }}>
       <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #E2E8F0", padding: "16px 20px", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
-        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#1E293B" }}>⏱ Pomodoro Timer</h1>
+        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: "#1E293B" }}>â± Pomodoro Timer</h1>
         <p style={{ margin: 0, color: "#64748B", fontSize: 12 }}>Habit-science backed focus</p>
       </div>
 
@@ -134,9 +134,9 @@ export default function TimerPage() {
           )}
 
           <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-            <button onClick={() => { setRunning(false); setSecs(MODES[mode].duration); setSessionId(null); }} style={{ width: 48, height: 48, borderRadius: 24, border: "1.5px solid #E2E8F0", background: "#fff", color: "#64748B", cursor: "pointer", fontSize: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>↺</button>
+            <button onClick={() => { setRunning(false); setSecs(MODES[mode].duration); setSessionId(null); }} style={{ width: 48, height: 48, borderRadius: 24, border: "1.5px solid #E2E8F0", background: "#fff", color: "#64748B", cursor: "pointer", fontSize: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>â†º</button>
             <button onClick={running ? endSession : startSession} style={{ width: 72, height: 72, borderRadius: 36, border: "none", background: `linear-gradient(135deg, ${color}, ${color}cc)`, color: "#fff", fontSize: 28, cursor: "pointer", boxShadow: `0 8px 24px ${color}44` }}>
-              {running ? "⏸" : "▶"}
+              {running ? "â¸" : "â–¶"}
             </button>
             <div style={{ width: 48, height: 48, borderRadius: 24, background: MODES[mode].bg, border: `1.5px solid ${color}33`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color }}>
               {sessions}
@@ -163,11 +163,11 @@ export default function TimerPage() {
                 <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "#1E293B" }}>{sess.subjects?.name || "General"}</p>
                 <p style={{ margin: 0, fontSize: 11, color: "#94A3B8", fontFamily: "monospace" }}>
                   {new Date(sess.started_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  {sess.duration_min ? ` · ${sess.duration_min}min` : " · Active"}
+                  {sess.duration_min ? ` Â· ${sess.duration_min}min` : " Â· Active"}
                 </p>
               </div>
               {sess.xp_earned > 0 && <span style={{ fontSize: 11, color: "#7C3AED", fontWeight: 700, background: "#EDE9FE", padding: "2px 8px", borderRadius: 8 }}>+{sess.xp_earned}xp</span>}
-              {sess.ended_at && <span style={{ color: "#059669", fontSize: 16 }}>✓</span>}
+              {sess.ended_at && <span style={{ color: "#059669", fontSize: 16 }}>âœ“</span>}
             </div>
           ))}
         </div>

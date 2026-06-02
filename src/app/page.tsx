@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -21,8 +21,8 @@ export default function HomePage() {
     setLoading(true);
     try {
       const url = mode === "login"
-        ? "${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/login"
-        : "${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/register";
+        ? "${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}/api/auth/login"
+        : "${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}/api/auth/register";
       const body = mode === "login"
         ? { email: form.email, password: form.password }
         : form;
@@ -76,17 +76,17 @@ export default function HomePage() {
           display: "flex", alignItems: "center", justifyContent: "center",
           fontSize: 40, marginBottom: 24,
           border: "1px solid rgba(255,255,255,0.3)",
-        }}>📖</div>
+        }}>ðŸ“–</div>
         <h1 style={{ fontSize: 42, fontWeight: 900, margin: 0, letterSpacing: "-1.5px" }}>StudyOS</h1>
         <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 16, marginTop: 12, textAlign: "center", lineHeight: 1.6 }}>
           AI-powered study planner<br/>that helps you ace your exams
         </p>
         <div style={{ marginTop: 48, display: "flex", flexDirection: "column", gap: 16, width: "100%", maxWidth: 280 }}>
           {[
-            { icon: "🤖", text: "AI schedule generation" },
-            { icon: "📊", text: "Exam readiness tracking" },
-            { icon: "⏱", text: "Pomodoro timer" },
-            { icon: "🏆", text: "Streaks & rewards" },
+            { icon: "ðŸ¤–", text: "AI schedule generation" },
+            { icon: "ðŸ“Š", text: "Exam readiness tracking" },
+            { icon: "â±", text: "Pomodoro timer" },
+            { icon: "ðŸ†", text: "Streaks & rewards" },
           ].map(f => (
             <div key={f.text} style={{ display: "flex", gap: 12, alignItems: "center" }}>
               <div style={{
@@ -109,7 +109,7 @@ export default function HomePage() {
       }}>
         <div style={{ width: "100%", maxWidth: 400 }}>
           <h2 style={{ fontSize: 28, fontWeight: 900, color: "#1E293B", margin: "0 0 8px" }}>
-            {mode === "login" ? "Welcome back! 👋" : "Get started free 🚀"}
+            {mode === "login" ? "Welcome back! ðŸ‘‹" : "Get started free ðŸš€"}
           </h2>
           <p style={{ color: "#64748B", fontSize: 14, marginBottom: 32 }}>
             {mode === "login" ? "Sign in to continue your study journey" : "Create your account to start studying smarter"}
@@ -149,7 +149,7 @@ export default function HomePage() {
               onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
 
             <label style={{ fontSize: 13, fontWeight: 600, color: "#475569", display: "block", marginBottom: 6 }}>Password</label>
-            <input style={inp} type="password" placeholder="••••••••"
+            <input style={inp} type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               value={form.password}
               onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required />
 
@@ -187,7 +187,7 @@ export default function HomePage() {
               boxShadow: loading ? "none" : "0 4px 20px rgba(30,64,175,0.4)",
               marginTop: 8,
             }}>
-              {loading ? "Please wait..." : mode === "login" ? "Sign In →" : "Create Account →"}
+              {loading ? "Please wait..." : mode === "login" ? "Sign In â†’" : "Create Account â†’"}
             </button>
           </form>
 
@@ -200,7 +200,7 @@ export default function HomePage() {
           </p>
 
           <p style={{ textAlign: "center", color: "#CBD5E1", fontSize: 11, marginTop: 32 }}>
-            🔒 Secured by Supabase · AI by Claude + OpenAI
+            ðŸ”’ Secured by Supabase Â· AI by Claude + OpenAI
           </p>
         </div>
       </div>
