@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: "âš¡", label: "Home" },
-  { href: "/schedule",  icon: "ðŸ“…", label: "Schedule" },
-  { href: "/timer",     icon: "â±", label: "Timer" },
-  { href: "/subjects",  icon: "ðŸ“š", label: "Subjects" },
-  { href: "/progress",  icon: "ðŸ“ˆ", label: "Progress" },
-  { href: "/rewards",   icon: "ðŸ†", label: "Rewards" },
+  { href: "/dashboard", icon: "📖", label: "Home" },
+  { href: "/schedule",  icon: "📅", label: "Schedule" },
+  { href: "/timer",     icon: "⏱️", label: "Timer" },
+  { href: "/subjects",  icon: "📚", label: "Subjects" },
+  { href: "/progress",  icon: "📊", label: "Progress" },
+  { href: "/rewards",   icon: "🎁", label: "Rewards" },
 ];
 
 export default function Dashboard() {

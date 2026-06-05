@@ -1,70 +1,54 @@
 import { api } from "./api";
 
 export const authApi = {
-  register: async (data: {
-    email: string; password: string; name: string;
-    examDate: string; dailyHours: number; goal?: string;
-  }) => {
+  register: async (data: any) => {
     const res = await api.post("/api/auth/register", data);
-    if (res.data.session?.access_token) {
-      localStorage.setItem("studyos_token", res.data.session.access_token);
+    if (res.session?.access_token) {
+      localStorage.setItem("studyos_token", res.session.access_token);
     }
-    return res.data;
+    return res;
   },
-
   login: async (email: string, password: string) => {
     const res = await api.post("/api/auth/login", { email, password });
-    if (res.data.session?.access_token) {
-      localStorage.setItem("studyos_token", res.data.session.access_token);
+    if (res.session?.access_token) {
+      localStorage.setItem("studyos_token", res.session.access_token);
     }
-    return res.data;
+    return res;
   },
-
-  me: async () => {
-    const res = await api.get("/api/auth/me");
-    return res.data;
-  },
-
+  me: async () => api.get("/api/auth/me"),
   logout: () => {
     localStorage.removeItem("studyos_token");
     window.location.href = "/";
   },
-
-  updateProfile: async (data: Record<string, unknown>) => {
-    const res = await api.patch("/api/auth/profile", data);
-    return res.data;
-  },
 };
 
 export const subjectsApi = {
-  getAll: async () => (await api.get("/api/subjects")).data,
-  create: async (data: Record<string, unknown>) => (await api.post("/api/subjects", data)).data,
+  getAll: async () => api.get("/api/subjects"),
+  create: async (data: any) => api.post("/api/subjects", data),
   updateConfidence: async (id: string, confidence: number) =>
-    (await api.patch(`/api/subjects/${id}/confidence`, { confidence })).data,
-  delete: async (id: string) => (await api.delete(`/api/subjects/${id}`)).data,
+    api.patch(`/api/subjects/${id}/confidence`, { confidence }),
+  delete: async (id: string) => api.delete(`/api/subjects/${id}`),
 };
 
 export const scheduleApi = {
-  getByDate: async (date: string) => (await api.get(`/api/schedule?date=${date}`)).data,
-  generate: async (weekStart: string) => (await api.post("/api/schedule/generate", { weekStart })).data,
+  getByDate: async (date: string) => api.get(`/api/schedule?date=${date}`),
+  generate: async (weekStart: string) => api.post("/api/schedule/generate", { weekStart }),
   updateStatus: async (id: string, status: string) =>
-    (await api.patch(`/api/schedule/${id}/status`, { status })).data,
+    api.patch(`/api/schedule/${id}/status`, { status }),
 };
 
 export const sessionsApi = {
-  start: async (data: Record<string, unknown>) => (await api.post("/api/sessions/start", data)).data,
-  end: async (id: string, data: Record<string, unknown>) =>
-    (await api.post(`/api/sessions/${id}/end`, data)).data,
-  getToday: async () => (await api.get("/api/sessions/today")).data,
+  start: async (data: any) => api.post("/api/sessions/start", data),
+  end: async (id: string, data: any) => api.post(`/api/sessions/${id}/end`, data),
+  getToday: async () => api.get("/api/sessions/today"),
 };
 
 export const progressApi = {
-  getReadiness: async () => (await api.get("/api/progress/readiness")).data,
-  getWeeklyReport: async () => (await api.get("/api/progress/weekly-report")).data,
-  getHistory: async () => (await api.get("/api/progress/history")).data,
+  getReadiness: async () => api.get("/api/progress/readiness"),
+  getWeeklyReport: async () => api.get("/api/progress/weekly-report"),
 };
 
 export const rewardsApi = {
-  getBadges: async () => (await api.get("/api/rewards/badges")).data,
-  getStreak: async () => (await api.get("/api/rewards/streak")).data,
+  getBadges: async () => api.get("/api/rewards/badges"),
+  getStreak: async () => api.get("/api/rewards/streak"),
 };
