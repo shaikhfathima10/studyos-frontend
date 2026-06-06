@@ -20,9 +20,10 @@ export default function HomePage() {
     e.preventDefault();
     setLoading(true);
     try {
+      const BASE = "https://studyos-backend-q5p3.onrender.com";
       const url = mode === "login"
-        ? "${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}/api/auth/login"
-        : "${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}/api/auth/register";
+        ? `${BASE}/api/auth/login`
+        : `${BASE}/api/auth/register`;
       const body = mode === "login"
         ? { email: form.email, password: form.password }
         : form;
