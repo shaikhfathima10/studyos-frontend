@@ -1,14 +1,15 @@
-﻿"use client";
+﻿"use client"; 
+import { Home, Calendar, Timer, BookOpen, TrendingUp, Trophy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: "📖", label: "Home" },
-  { href: "/schedule",  icon: "📅", label: "Schedule" },
-  { href: "/timer",     icon: "⏱️", label: "Timer" },
-  { href: "/subjects",  icon: "📚", label: "Subjects" },
-  { href: "/progress",  icon: "📊", label: "Progress" },
-  { href: "/rewards",   icon: "🎁", label: "Rewards" },
+  { href: "/dashboard", icon: <Home size={20}/>, label: "Home" },
+  { href: "/schedule",  icon: <Calendar size={20}/>, label: "Schedule" },
+  { href: "/timer",     icon: <Timer size={20}/>, label: "Timer" },
+  { href: "/subjects",  icon: <BookOpen size={20}/>, label: "Subjects" },
+  { href: "/progress",  icon: <TrendingUp size={20}/>, label: "Progress" },
+  { href: "/rewards",   icon: <Trophy size={20}/>, label: "Rewards" },
 ];
 
 const MODES = {
