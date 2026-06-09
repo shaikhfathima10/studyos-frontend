@@ -1,34 +1,41 @@
-﻿"use client"; 
-import { Home, Calendar, Timer, BookOpen, TrendingUp, Trophy } from "lucide-react";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Home, Calendar, Clock, BookOpen, TrendingUp, Trophy, Flame, Star, Target } from "lucide-react";
 
 const NAV = [
-  { href: "/dashboard", icon: <Home size={20}/>, label: "Home" },
-  { href: "/schedule",  icon: <Calendar size={20}/>, label: "Schedule" },
-  { href: "/timer",     icon: <Timer size={20}/>, label: "Timer" },
-  { href: "/subjects",  icon: <BookOpen size={20}/>, label: "Subjects" },
-  { href: "/progress",  icon: <TrendingUp size={20}/>, label: "Progress" },
-  { href: "/rewards",   icon: <Trophy size={20}/>, label: "Rewards" },
+  { href: "/dashboard", icon: Home,        label: "Home" },
+  { href: "/schedule",  icon: Calendar,    label: "Schedule" },
+  { href: "/timer",     icon: Clock,       label: "Timer" },
+  { href: "/subjects",  icon: BookOpen,    label: "Subjects" },
+  { href: "/progress",  icon: TrendingUp,  label: "Progress" },
+  { href: "/rewards",   icon: Trophy,      label: "Rewards" },
+];
+
+const STATS = [
+  { Icon: Flame,  key: "streak", label: "Streak", color: "#D97706" },
+  { Icon: Star,   key: "xp",     label: "XP",     color: "#7C3AED" },
+  { Icon: Target, key: "level",  label: "Level",  color: "#1E40AF" },
 ];
 
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser]         = useState<any>(null);
   const [readiness, setReadiness] = useState<any>(null);
-  const [schedule, setSchedule] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [schedule, setSchedule]  = useState<any[]>([]);
+  const [loading, setLoading]    = useState(true);
   const [generating, setGenerating] = useState(false);
   const router = useRouter();
 
-  const getToken = () => localStorage.getItem("studyos_token") || "";
+  const BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const tok  = () => localStorage.getItem("studyos_token") || "";
 
   const apiFetch = async (path: string, opts?: RequestInit) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://studyos-backend-q5p3.onrender.com'}${path}`, {
+    const res = await fetch(BASE + path, {
       ...opts,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`,
-        ...opts?.headers,
+        "Authorization": "Bearer " + tok(),
+        ...(opts?.headers || {}),
       },
     });
     return res.json();
@@ -36,13 +43,13 @@ export default function Dashboard() {
 
   const loadSchedule = async () => {
     const today = new Date().toISOString().split("T")[0];
-    const sched = await apiFetch(`/api/schedule?date=${today}`);
+    const sched = await apiFetch("/api/schedule?date=" + today);
     setSchedule(Array.isArray(sched) ? sched : []);
   };
 
   useEffect(() => {
     if (!localStorage.getItem("studyos_token")) { router.push("/"); return; }
-    const load = async () => {
+    (async () => {
       try {
         const [me, r] = await Promise.all([
           apiFetch("/api/auth/me"),
@@ -53,8 +60,7 @@ export default function Dashboard() {
         await loadSchedule();
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
-    };
-    load();
+    })();
   }, []);
 
   const generateSchedule = async () => {
@@ -72,12 +78,15 @@ export default function Dashboard() {
     } finally { setGenerating(false); }
   };
 
-  const logout = () => { localStorage.removeItem("studyos_token"); router.push("/"); };
+  const logout = () => {
+    localStorage.removeItem("studyos_token");
+    router.push("/");
+  };
 
   if (loading) return (
     <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#F8FAFC" }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: 48 }}>ðŸ“–</div>
+        <BookOpen size={48} color="#1E40AF" />
         <p style={{ color: "#64748B", marginTop: 12, fontWeight: 600 }}>Loading StudyOS...</p>
       </div>
     </div>
@@ -93,12 +102,14 @@ export default function Dashboard() {
       {/* Header */}
       <div style={{ position: "sticky", top: 0, zIndex: 100, background: "#fff", borderBottom: "1px solid #E2E8F0", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #1E40AF, #4338CA)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>ðŸ“–</div>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #1E40AF, #4338CA)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <BookOpen size={20} color="#fff" />
+          </div>
           <span style={{ fontSize: 18, fontWeight: 900, color: "#1E293B" }}>Study<span style={{ color: "#1E40AF" }}>OS</span></span>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <div style={{ background: "#FEF3C7", border: "1px solid #FCD34D", borderRadius: 20, padding: "5px 12px", display: "flex", gap: 6, alignItems: "center" }}>
-            <span>ðŸ”¥</span>
+            <Flame size={14} color="#D97706" />
             <span style={{ fontWeight: 800, color: "#D97706", fontSize: 13 }}>{user?.streak || 0}</span>
           </div>
           <button onClick={logout} style={{ background: "#FEE2E2", border: "1px solid #FECACA", borderRadius: 10, padding: "6px 12px", color: "#DC2626", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>Logout</button>
@@ -109,9 +120,11 @@ export default function Dashboard() {
 
         {/* Welcome */}
         <div style={{ marginBottom: 20 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 900, margin: 0, color: "#1E293B" }}>Hey, {user?.name?.split(" ")[0] || "Scholar"} ðŸ‘‹</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 900, margin: 0, color: "#1E293B" }}>
+            Hey, {user?.name?.split(" ")[0] || "Scholar"}!
+          </h2>
           <p style={{ color: "#64748B", fontSize: 14, marginTop: 4 }}>
-            {examDays ? `Exam in ${examDays} days Â· Let's crush it!` : "Welcome to StudyOS!"}
+            {examDays ? `Exam in ${examDays} days · Let's crush it!` : "Welcome to StudyOS!"}
           </p>
         </div>
 
@@ -123,11 +136,11 @@ export default function Dashboard() {
               {readiness.readiness}<span style={{ fontSize: 24, color: "rgba(255,255,255,0.6)" }}>%</span>
             </p>
             <div style={{ marginTop: 12, height: 6, background: "rgba(255,255,255,0.2)", borderRadius: 3, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${readiness.readiness}%`, borderRadius: 3, background: "#fff" }} />
+              <div style={{ height: "100%", width: readiness.readiness + "%", borderRadius: 3, background: "#fff" }} />
             </div>
             {readiness.critical_subjects?.length > 0 && (
               <p style={{ color: "#FCA5A5", fontSize: 12, marginTop: 8, fontWeight: 600 }}>
-                âš ï¸ Critical: {readiness.critical_subjects.join(", ")}
+                Critical: {readiness.critical_subjects.join(", ")}
               </p>
             )}
           </div>
@@ -135,15 +148,11 @@ export default function Dashboard() {
 
         {/* Stats */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
-          {[
-            { icon: "ðŸ”¥", val: user?.streak || 0, label: "Streak", color: "#D97706", bg: "#FEF3C7" },
-            { icon: "â­", val: user?.xp || 0, label: "XP", color: "#7C3AED", bg: "#EDE9FE" },
-            { icon: "ðŸŽ¯", val: user?.level || 1, label: "Level", color: "#1E40AF", bg: "#DBEAFE" },
-          ].map(s => (
-            <div key={s.label} style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 16, padding: "16px 12px", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
-              <div style={{ fontSize: 22 }}>{s.icon}</div>
-              <div style={{ fontSize: 20, fontWeight: 900, marginTop: 4, color: s.color }}>{s.val}</div>
-              <div style={{ fontSize: 10, color: "#94A3B8", fontWeight: 600 }}>{s.label}</div>
+          {STATS.map(({ Icon, key, label, color }) => (
+            <div key={key} style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 16, padding: "16px 12px", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
+              <Icon size={22} color={color} />
+              <div style={{ fontSize: 20, fontWeight: 900, marginTop: 4, color }}>{user?.[key] || (key === "level" ? 1 : 0)}</div>
+              <div style={{ fontSize: 10, color: "#94A3B8", fontWeight: 600 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -152,13 +161,13 @@ export default function Dashboard() {
         <div style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 20, padding: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
             <p style={{ fontWeight: 800, fontSize: 15, margin: 0, color: "#1E293B" }}>Today's Schedule</p>
-            <button onClick={generateSchedule} disabled={generating} style={{ background: "linear-gradient(135deg, #1E40AF, #4338CA)", border: "none", borderRadius: 10, padding: "8px 14px", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700, boxShadow: "0 2px 8px rgba(30,64,175,0.3)" }}>
-              {generating ? "â³..." : "ðŸ¤– Generate"}
+            <button onClick={generateSchedule} disabled={generating} style={{ background: "linear-gradient(135deg, #1E40AF, #4338CA)", border: "none", borderRadius: 10, padding: "8px 14px", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+              {generating ? "..." : "Generate"}
             </button>
           </div>
           {schedule.length === 0 ? (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
-              <p style={{ fontSize: 40, margin: 0 }}>ðŸ“…</p>
+              <Calendar size={40} color="#CBD5E1" />
               <p style={{ color: "#94A3B8", fontSize: 13, marginTop: 10, fontWeight: 500 }}>No schedule yet. Click Generate!</p>
             </div>
           ) : schedule.slice(0, 8).map((block: any, i: number) => (
@@ -171,7 +180,7 @@ export default function Dashboard() {
                 {block.subjects?.name || "Break"}
               </span>
               <span style={{ fontSize: 11, color: "#94A3B8", background: "#F1F5F9", padding: "2px 8px", borderRadius: 6 }}>{block.duration_min}m</span>
-              {block.status === "done" && <span style={{ color: "#10B981", fontSize: 16 }}>âœ“</span>}
+              {block.status === "done" && <span style={{ color: "#10B981" }}>✓</span>}
             </div>
           ))}
         </div>
@@ -180,12 +189,15 @@ export default function Dashboard() {
       {/* Bottom Nav */}
       <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, background: "#fff", borderTop: "1px solid #E2E8F0", padding: "8px 8px 16px", zIndex: 100, boxShadow: "0 -4px 20px rgba(0,0,0,0.05)" }}>
         <div style={{ display: "flex" }}>
-          {NAV.map(n => (
-            <a key={n.href} href={n.href} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "8px 4px", borderRadius: 12, textDecoration: "none", background: n.href === "/dashboard" ? "#EFF6FF" : "transparent" }}>
-              <span style={{ fontSize: 20 }}>{n.icon}</span>
-              <span style={{ fontSize: 9, fontWeight: 700, color: n.href === "/dashboard" ? "#1E40AF" : "#94A3B8", textTransform: "uppercase" }}>{n.label}</span>
-            </a>
-          ))}
+          {NAV.map(({ href, icon: Icon, label }) => {
+            const active = href === "/dashboard";
+            return (
+              <a key={href} href={href} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "8px 4px", borderRadius: 12, textDecoration: "none", background: active ? "#EFF6FF" : "transparent" }}>
+                <Icon size={22} color={active ? "#1E40AF" : "#94A3B8"} />
+                <span style={{ fontSize: 9, fontWeight: 700, color: active ? "#1E40AF" : "#94A3B8", textTransform: "uppercase" }}>{label}</span>
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>
