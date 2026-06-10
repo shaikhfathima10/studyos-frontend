@@ -1,15 +1,15 @@
 ﻿"use client"; 
-import { Home, Calendar, Timer, BookOpen, TrendingUp, Trophy } from "lucide-react";
+import { Home, Calendar, Clock, BookOpen, TrendingUp, Trophy, Flame, Star, Target } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { href: "/dashboard", icon: <Home size={20}/>, label: "Home" },
-  { href: "/schedule",  icon: <Calendar size={20}/>, label: "Schedule" },
-  { href: "/timer",     icon: <Timer size={20}/>, label: "Timer" },
-  { href: "/subjects",  icon: <BookOpen size={20}/>, label: "Subjects" },
-  { href: "/progress",  icon: <TrendingUp size={20}/>, label: "Progress" },
-  { href: "/rewards",   icon: <Trophy size={20}/>, label: "Rewards" },
+  { href: "/dashboard", icon: <Home size={22} />, label: "Home" },
+  { href: "/schedule",  icon: <Calendar size={22} />, label: "Schedule" },
+  { href: "/timer",     icon: <Clock size={22} />, label: "Timer" },
+  { href: "/subjects",  icon: <BookOpen size={22} />, label: "Subjects" },
+  { href: "/progress",  icon: <TrendingUp size={22} />, label: "Progress" },
+  { href: "/rewards",   icon: <Trophy size={22} />, label: "Rewards" },
 ];
 
 export default function ProgressPage() {
@@ -160,7 +160,7 @@ export default function ProgressPage() {
         <div style={{ display: "flex" }}>
           {NAV.map(n => (
             <a key={n.href} href={n.href} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, padding: "8px 4px", borderRadius: 12, textDecoration: "none", background: n.href === "/progress" ? "#EFF6FF" : "transparent" }}>
-              <span style={{ fontSize: 20 }}>{n.icon}</span>
+              <span>{n.icon}</span>
               <span style={{ fontSize: 9, fontWeight: 700, color: n.href === "/progress" ? "#1E40AF" : "#94A3B8", textTransform: "uppercase" }}>{n.label}</span>
             </a>
           ))}
